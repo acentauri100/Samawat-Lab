@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SamawatLab — Jelajah Astronomi & Ilmu Falak</title>
+<meta name="description" content="SamawatLab: ensiklopedia ringkas astronomi, cabang-cabangnya, dan ilmu falak (astronomi Islam) — lengkap dengan tokoh, rumus, kegunaan, kasus, dan referensi.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<style>
+:root{
+  --bg0:#07041a; --bg1:#0d0830; --violet:#5b2fa8; --violet2:#8a5cf0;
+  --blue:#2f5fe0; --blue2:#6fa0ff; --red:#d8365a; --red2:#ff6b83;
+  --sage:#c9e3a2; --ink:#ece8ff; --mute:#a9a3cf; --line:rgba(160,150,255,.16);
+  --card:rgba(20,13,58,.62); --card2:rgba(30,20,80,.55);
+  --radius:18px; --shadow:0 10px 40px rgba(5,2,25,.55);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+.logo-stage{margin:0 auto;padding:6%}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  color:var(--ink); background:var(--bg0); line-height:1.7; min-height:100vh; overflow-x:hidden;
+  background-image:
+    radial-gradient(ellipse 70% 55% at 15% 8%, rgba(91,47,168,.55), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 88% 22%, rgba(47,95,224,.42), transparent 62%),
+    radial-gradient(ellipse 55% 45% at 70% 92%, rgba(216,54,90,.30), transparent 65%),
+    linear-gradient(180deg,var(--bg1),var(--bg0) 70%);
+  background-attachment:fixed;
+}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.orn{position:fixed;z-index:0;pointer-events:none;opacity:.07;color:var(--sage)}
+.orn.moon{width:min(78vw,760px);right:-14vw;top:8vh}
+.orn.orbit{width:min(90vw,900px);left:-30vw;bottom:-18vh;opacity:.06;color:var(--blue2)}
+a{color:var(--blue2);text-decoration:none} a:hover{color:var(--red2)}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 22px}
+
+/* NAV */
+header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(8,4,28,.72);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:18px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink);font-weight:700;letter-spacing:.14em;font-size:.95rem}
+.brand img{width:44px;height:44px;border-radius:50%;box-shadow:0 0 0 1px rgba(201,227,162,.35),0 0 24px rgba(138,92,240,.5)}
+.brand small{display:block;font-weight:400;letter-spacing:.2em;color:var(--sage);font-size:.62rem;opacity:.85}
+nav.menu{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+nav.menu a{color:var(--mute);padding:8px 14px;border-radius:999px;font-size:.9rem;transition:.2s}
+nav.menu a:hover,nav.menu a.on{color:#fff;background:linear-gradient(135deg,rgba(138,92,240,.45),rgba(47,95,224,.35));box-shadow:inset 0 0 0 1px var(--line)}
+.burger{display:none;margin-left:auto;background:none;border:1px solid var(--line);color:var(--ink);width:42px;height:42px;border-radius:12px;font-size:1.2rem;cursor:pointer}
+@media(max-width:860px){
+  .burger{display:block}
+  nav.menu{display:none;position:absolute;left:0;right:0;top:68px;background:rgba(8,4,28,.96);padding:12px 18px 18px;flex-direction:column;border-bottom:1px solid var(--line)}
+  nav.menu.open{display:flex}
+}
+
+/* HERO */
+.hero{padding:70px 0 40px;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2.1rem,5vw,3.6rem);line-height:1.12;font-weight:800}
+.grad{background:linear-gradient(100deg,var(--blue2),var(--violet2) 45%,var(--red2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{color:var(--mute);font-size:1.1rem;margin:18px 0 26px;max-width:56ch}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;border:1px solid var(--line);color:var(--ink);background:var(--card);transition:.25s;cursor:pointer;font-size:.95rem}
+.btn:hover{transform:translateY(-2px);color:#fff;border-color:var(--violet2)}
+.btn.pri{background:linear-gradient(135deg,var(--violet),var(--blue));border:none;box-shadow:0 8px 28px rgba(91,47,168,.5)}
+.btn.red{background:linear-gradient(135deg,var(--red),var(--violet));border:none}
+.logo-stage{position:relative;display:grid;place-items:center}
+.logo-stage img{width:min(100%,400px);border-radius:50%;position:relative;z-index:2;filter:drop-shadow(0 0 40px rgba(138,92,240,.55))}
+.logo-stage::before,.logo-stage::after{content:"";position:absolute;border-radius:50%;border:1px dashed rgba(201,227,162,.25)}
+.logo-stage::before{inset:-5%;animation:spin 60s linear infinite}
+.logo-stage::after{inset:-16%;border-color:rgba(111,160,255,.2);animation:spin 90s linear infinite reverse}
+.dot{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--red2);box-shadow:0 0 14px var(--red2);top:-4%;left:50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:860px){.hero{grid-template-columns:1fr;padding-top:36px}.logo-stage{order:-1;max-width:300px;margin:0 auto}}
+
+/* SECTIONS & CARDS */
+h2.sec{font-size:1.6rem;margin:46px 0 6px}
+p.sub{color:var(--mute);margin-bottom:22px;max-width:70ch}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(8px);transition:.28s;position:relative;overflow:hidden;display:block;color:var(--ink)}
+a.card:hover{transform:translateY(-5px);border-color:rgba(138,92,240,.6);color:var(--ink)}
+.card::after{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(138,92,240,.25),transparent 70%)}
+.card .ic{font-size:1.9rem;margin-bottom:8px;display:block}
+.card h3{font-size:1.1rem;margin-bottom:6px}
+.card p{color:var(--mute);font-size:.92rem}
+.tag{display:inline-block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:999px;background:rgba(216,54,90,.18);color:var(--red2);border:1px solid rgba(216,54,90,.35);margin-bottom:10px}
+.tag.b{background:rgba(47,95,224,.18);color:var(--blue2);border-color:rgba(47,95,224,.4)}
+.tag.v{background:rgba(138,92,240,.18);color:var(--violet2);border-color:rgba(138,92,240,.4)}
+.falak-banner{margin-top:34px;border-radius:24px;padding:34px;border:1px solid rgba(201,227,162,.25);background:linear-gradient(120deg,rgba(91,47,168,.5),rgba(47,95,224,.3) 55%,rgba(216,54,90,.3));display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+@media(max-width:700px){.falak-banner{grid-template-columns:1fr}}
+
+/* ARTICLE LAYOUT */
+.layout{display:grid;grid-template-columns:250px 1fr;gap:34px;padding:38px 0 60px;align-items:start}
+aside.toc{position:sticky;top:90px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;max-height:calc(100vh - 120px);overflow:auto}
+aside.toc h4{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:10px}
+aside.toc a{display:block;color:var(--mute);padding:6px 10px;border-radius:10px;font-size:.88rem;border-left:2px solid transparent}
+aside.toc a:hover,aside.toc a.on{color:#fff;background:rgba(138,92,240,.18);border-left-color:var(--red2)}
+aside.toc hr{border:none;border-top:1px solid var(--line);margin:12px 0}
+@media(max-width:900px){.layout{grid-template-columns:1fr}aside.toc{position:static;max-height:none}}
+article{min-width:0}
+article h1{font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.2;margin-bottom:10px}
+article .lede{color:var(--mute);font-size:1.08rem;margin-bottom:26px;max-width:70ch}
+article section{margin-bottom:34px;scroll-margin-top:90px}
+article h2{font-size:1.35rem;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+article h2::before{content:"";width:10px;height:10px;transform:rotate(45deg);background:linear-gradient(135deg,var(--red2),var(--violet2));border-radius:2px;flex:none}
+article p{margin-bottom:12px;max-width:75ch}
+article ul{margin:0 0 12px 22px;max-width:75ch} article li{margin-bottom:6px}
+.crumb{font-size:.85rem;color:var(--mute);margin-bottom:12px}
+.formula{background:linear-gradient(135deg,rgba(47,95,224,.16),rgba(91,47,168,.2));border:1px solid var(--line);border-left:3px solid var(--blue2);border-radius:14px;padding:14px 18px;margin:12px 0}
+.formula b{display:block;font-size:.85rem;color:var(--sage);margin-bottom:4px;letter-spacing:.03em}
+.formula code{font-family:"Cambria Math","STIX Two Math",Cambria,Georgia,serif;font-size:1.12rem;display:block;color:#fff;overflow-x:auto;padding:2px 0}
+.formula small{display:block;color:var(--mute);margin-top:4px;font-size:.84rem}
+.people{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.person{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.person b{display:block;color:#fff} .person span{color:var(--mute);font-size:.88rem}
+.case{background:linear-gradient(135deg,rgba(216,54,90,.14),rgba(91,47,168,.15));border:1px solid rgba(216,54,90,.3);border-radius:14px;padding:14px 18px;margin-bottom:12px}
+.case b{color:var(--red2);display:block;margin-bottom:2px}
+.note{background:rgba(201,227,162,.08);border:1px solid rgba(201,227,162,.3);border-radius:14px;padding:12px 16px;font-size:.92rem;color:#e5f2cf;margin:12px 0}
+.timeline{border-left:2px solid var(--line);margin-left:8px;padding-left:22px}
+.timeline .t{position:relative;margin-bottom:16px}
+.timeline .t::before{content:"";position:absolute;left:-29px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--violet2);box-shadow:0 0 12px var(--violet2)}
+.timeline .t b{color:var(--sage)}
+table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:.92rem}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--sage);font-weight:600;background:rgba(91,47,168,.2)}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.refs{list-style:none;margin:0!important}
+.refs li{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:.9rem;word-break:break-word}
+.refs li span{color:var(--mute)}
+.pager{display:flex;justify-content:space-between;gap:14px;margin-top:30px;flex-wrap:wrap}
+
+/* TOOL */
+.tool{display:grid;gap:18px;grid-template-columns:1fr 1fr}
+@media(max-width:860px){.tool{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+label{display:block;font-size:.82rem;color:var(--sage);margin:10px 0 4px;letter-spacing:.04em}
+input,select{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(8,4,30,.7);color:var(--ink);font:inherit}
+input:focus,select:focus{outline:2px solid var(--violet2)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.out td:last-child{font-variant-numeric:tabular-nums;font-weight:600;color:#fff;text-align:right}
+.compass{width:210px;height:210px;margin:6px auto 0;position:relative;border-radius:50%;border:2px solid rgba(201,227,162,.4);background:radial-gradient(circle,rgba(91,47,168,.35),rgba(8,4,30,.8))}
+.compass span{position:absolute;font-size:.8rem;color:var(--mute)}
+.compass .n{top:4px;left:50%;transform:translateX(-50%);color:var(--red2);font-weight:700}
+.compass .e{right:8px;top:50%;transform:translateY(-50%)} .compass .s{bottom:4px;left:50%;transform:translateX(-50%)} .compass .w{left:8px;top:50%;transform:translateY(-50%)}
+.needle{position:absolute;left:50%;top:50%;width:4px;height:88px;margin-left:-2px;margin-top:-88px;transform-origin:50% 88px;background:linear-gradient(var(--red2),transparent);border-radius:4px;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.needle::after{content:"🕋";position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:1.1rem}
+footer{position:relative;z-index:1;border-top:1px solid var(--line);margin-top:30px;padding:30px 0 50px;color:var(--mute);font-size:.88rem;text-align:center;background:rgba(5,2,20,.5)}
+footer img{width:54px;border-radius:50%;margin-bottom:8px}
+.search{max-width:460px;margin:0 0 22px;position:relative}
+.search input{padding-left:40px;border-radius:999px}
+.search::before{content:"⌕";position:absolute;left:14px;top:50%;transform:translateY(-52%);font-size:1.25rem;color:var(--mute)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<link rel="stylesheet" href="assets/atlas.css">
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<!-- Ornamen samar: sabit & orbit (terinspirasi logo SamawatLab) -->
+<svg class="orn moon" viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+  <path d="M250 30a170 170 0 1 0 100 270 140 140 0 1 1-100-270z"/>
+  <path d="M250 60a150 150 0 1 0 80 235 125 125 0 1 1-80-235z" opacity=".6"/>
+  <g transform="translate(150 285)"><path d="M0-22 6-6 22 0 6 6 0 22-6 6-22 0-6-6z"/><circle r="30"/><circle r="44" stroke-dasharray="3 6"/></g>
+  <g transform="translate(95 245) scale(.55)"><path d="M0-22 6-6 22 0 6 6 0 22-6 6-22 0-6-6z"/><circle r="30"/></g>
+  <g transform="translate(215 295) scale(.55)"><path d="M0-22 6-6 22 0 6 6 0 22-6 6-22 0-6-6z"/><circle r="30"/></g>
+</svg>
+<svg class="orn orbit" viewBox="0 0 400 400" fill="none" stroke="currentColor" stroke-width=".8" aria-hidden="true">
+  <circle cx="200" cy="200" r="190"/><circle cx="200" cy="200" r="140" stroke-dasharray="2 5"/><ellipse cx="200" cy="200" rx="190" ry="70" transform="rotate(-24 200 200)"/>
+  <circle cx="58" cy="270" r="5" fill="currentColor"/><circle cx="330" cy="120" r="4" fill="currentColor"/>
+</svg>
+
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#/"><img src="assets/logo.png" alt="Logo SamawatLab"><span>SAMAWAT LAB<small>ASTRONOMI · FALAK · SAINS</small></span></a>
+  <button class="burger" id="burger" aria-label="Menu">☰</button>
+  <nav class="menu" id="menu">
+    <a href="#/" data-r="home">Beranda</a>
+    <a href="#/atlas" data-r="atlas">Atlas Ilmu</a>
+    <a href="#/belajar" data-r="belajar">Jalur Belajar</a>
+    <a href="#/cabang" data-r="cabang">Cabang</a>
+    <a href="#/falak" data-r="falak">Ilmu Falak</a>
+    <a href="#/alat" data-r="alat">Kalkulator</a>
+    <a href="#/referensi" data-r="referensi">Referensi</a>
+  </nav>
+</div></header>
+
+<main id="app" class="wrap"></main>
+
+<footer><div class="wrap">
+  <img src="assets/logo.png" alt="SamawatLab"><br>
+  <b>SamawatLab</b> — v0.3 · Konten edukatif ringkas, rujuk sumber asli untuk kedalaman &amp; verifikasi.<br>
+  Inspirasi struktur topik: <a href="http://hyperphysics.phy-astr.gsu.edu/hbase/hframe.html" target="_blank" rel="noopener">HyperPhysics (Georgia State University)</a>.
+</div></footer>
+
+<script src="assets/atlas-data.js"></script>
+<script src="assets/atlas.js"></script>
+<script>
+/* =========================================================
+   1. LATAR BINTANG
+   ========================================================= */
+(function(){
+  const c=document.getElementById('stars'),x=c.getContext('2d');let W,H,S=[];
+  function init(){W=c.width=innerWidth;H=c.height=innerHeight;S=[];const n=Math.min(220,Math.floor(W*H/9000));
+    for(let i=0;i<n;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.3+.2,p:Math.random()*6.28,s:Math.random()*.02+.004,
+      h:[210,265,345,50][Math.floor(Math.random()*4)]});}
+  function draw(t){x.clearRect(0,0,W,H);
+    for(const s of S){const a=.35+.65*Math.abs(Math.sin(s.p+t*s.s*.06));x.fillStyle=`hsla(${s.h},80%,${s.h==50?85:78}%,${a})`;
+      x.beginPath();x.arc(s.x,s.y,s.r,0,6.283);x.fill();}
+    requestAnimationFrame(draw);}
+  addEventListener('resize',init);init();requestAnimationFrame(draw);
+})();
+
+/* =========================================================
+   2. UTILITAS TEMPLAT
+   ========================================================= */
+const F=(n,e,k)=>`<div class="formula"><b>${n}</b><code>${e}</code>${k?`<small>${k}</small>`:''}</div>`;
+const UL=a=>`<ul>${a.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+const CASES=a=>a.map(c=>`<div class="case"><b>${c[0]}</b>${c[1]}</div>`).join('');
+const PEOPLE=a=>`<div class="people">${a.map(p=>`<div class="person"><b>${p[0]}</b><span>${p[1]}</span></div>`).join('')}</div>`;
+const TL=a=>`<div class="timeline">${a.map(t=>`<div class="t"><b>${t[0]}</b> — ${t[1]}</div>`).join('')}</div>`;
+const NOTE=t=>`<div class="note">${t}</div>`;
+const REFS=a=>`<ul class="refs">${a.map(r=>`<li>${r[0]}${r[1]?` — <a href="${r[1]}" target="_blank" rel="noopener">${r[1].replace(/^https?:\/\//,'')}</a>`:''}${r[2]?` <span>(${r[2]})</span>`:''}</li>`).join('')}</ul>`;
+const TBL=(h,rows)=>`<div class="tblwrap"><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+
+/* Referensi bersama */
+const HP='http://hyperphysics.phy-astr.gsu.edu/hbase/';
+const R={
+ hp:['HyperPhysics — Beranda (R. Nave, Georgia State Univ.)',HP+'hframe.html'],
+ hpIdx:['HyperPhysics — Indeks',  'https://hyperphysics.gsu.edu/hbase/indx.html'],
+ hpKep:['HyperPhysics — Kepler\'s Laws',HP+'kepler.html'],
+ hpStar:['HyperPhysics — Star Processes','https://hyperphysics.gsu.edu/hbase/starlog/starpro.html'],
+ hpStarC:['HyperPhysics — Star Concepts','https://hyperphysics.gsu.edu/hbase/Starlog/starcon.html'],
+ hpSun:['HyperPhysics — The Sun and Stars (NSCI 3001, Ch. 18)','https://hyperphysics.gsu.edu/hbase/Class/ncsi18.html'],
+ nasa:['NASA Science','https://science.nasa.gov/'],
+ nasaEcl:['NASA Eclipse Web Site (F. Espenak)','https://eclipse.gsfc.nasa.gov/'],
+ iau:['International Astronomical Union','https://www.iau.org/'],
+ esaGaia:['ESA — Gaia mission','https://www.esa.int/Science_Exploration/Space_Science/Gaia'],
+ meeus:['Jean Meeus — <i>Astronomical Algorithms</i> (Willmann-Bell, 2nd ed., 1998)',null,'buku'],
+ kemenag:['Kementerian Agama RI — Bimas Islam (Hisab &amp; Rukyat)','https://bimasislam.kemenag.go.id/'],
+ khazin:['Muhyiddin Khazin — <i>Ilmu Falak dalam Teori dan Praktik</i> (Buana Pustaka)',null,'buku'],
+ almanac:['Hisab Rukyat — <i>Ephemeris Hisab Rukyat</i> (terbitan tahunan Kemenag RI)',null,'buku'],
+ wikiFalak:['Wikipedia ID — Ilmu falak','https://id.wikipedia.org/wiki/Ilmu_falak'],
+ wikiAstro:['Wikipedia ID — Astronomi','https://id.wikipedia.org/wiki/Astronomi'],
+ carroll:['Carroll &amp; Ostlie — <i>An Introduction to Modern Astrophysics</i>',null,'buku'],
+ kutner:['M. Kutner — <i>Astronomy: A Physical Perspective</i> (Cambridge UP)',null,'buku'],
+ saliba:['G. Saliba — <i>A History of Arabic Astronomy</i> (NYU Press, 1994)',null,'buku'],
+};
+
+/* =========================================================
+   3. DATA: CABANG ASTRONOMI
+   ========================================================= */
+const CABANG=[
+{id:'astrometri',ikon:'🧭',nama:'Astrometri & Astronomi Bola',ringkas:'Mengukur posisi, gerak, dan jarak benda langit; dasar semua sistem koordinat.',
+ definisi:'Astrometri adalah cabang tertua astronomi: pengukuran presisi posisi, gerak diri (proper motion), dan paralaks bintang. Astronomi bola (spherical astronomy) menyediakan geometri bola langit dan sistem koordinatnya — fondasi bagi navigasi, kalender, dan ilmu falak.',
+ isi:['Sistem koordinat: horizon (azimut–tinggi), ekuator (asensio rekta–deklinasi), ekliptika','Waktu astronomi: waktu sideris, waktu matahari sejati/rata-rata, persamaan waktu','Paralaks &amp; gerak diri; presesi dan nutasi','Katalog bintang (Hipparcos, Gaia)'],
+ tokoh:[['Hipparchus (~190–120 SM)','Katalog bintang awal, magnitudo, penemu presesi ekuinoks'],['Eratosthenes (~276–194 SM)','Mengukur keliling Bumi dari bayangan di Syene &amp; Alexandria'],['F. W. Bessel (1784–1846)','Paralaks bintang pertama yang terukur (61 Cygni, 1838)'],['Misi Gaia (ESA, 2013–)','Peta 3D miliaran bintang dengan presisi mikro-detik busur']],
+ rumus:[['Paralaks → jarak','d (pc) = 1 / p (detik busur)','1 pc ≈ 3,26 tahun cahaya ≈ 3,086×10¹⁶ m'],['Modulus jarak','m − M = 5 log₁₀(d / 10 pc)','m = magnitudo tampak, M = magnitudo mutlak'],['Transformasi koordinat','sin h = sin φ sin δ + cos φ cos δ cos H','h tinggi, φ lintang, δ deklinasi, H sudut jam'],['Keliling Bumi (Eratosthenes)','K = (360° / Δθ) × jarak','Δθ ≈ 7,2° dan jarak ≈ 5000 stadia → ±250.000 stadia']],
+ guna:['Navigasi laut/udara/darat dan penentuan lintang–bujur','Penentuan waktu &amp; kalender, termasuk waktu shalat dan arah kiblat','Memetakan struktur Bimasakti dan gerak galaksi','Menentukan skala jarak kosmik (tangga jarak)'],
+ kasus:[['Paralaks 61 Cygni (1838)','Bessel membuktikan bintang berjarak jauh dan memberi bukti langsung gerak Bumi mengelilingi Matahari.'],['Gaia DR3 (2022)','Katalog posisi dan gerak lebih dari satu miliar bintang, mengubah pemahaman atas struktur dan sejarah Bimasakti.']],
+ ref:[R.esaGaia,R.meeus,R.kutner,R.hpIdx]},
+
+{id:'mekanika-langit',ikon:'🪐',nama:'Mekanika Langit',ringkas:'Hukum gerak dan gravitasi yang mengatur orbit planet, bulan, komet, dan satelit.',
+ definisi:'Mekanika langit menerapkan hukum gerak dan gravitasi Newton (dan relativitas umum bila perlu) untuk memprediksi gerak benda langit. Ia memungkinkan ramalan gerhana, posisi planet, dan lintasan wahana antariksa.',
+ isi:['Hukum Kepler I–III dan elemen orbit','Masalah dua benda &amp; tiga benda; titik Lagrange','Perturbasi, resonansi orbit, dan gaya pasang surut','Transfer orbit (Hohmann), kecepatan lepas'],
+ tokoh:[['Johannes Kepler (1571–1630)','Tiga hukum gerak planet (1609, 1619)'],['Isaac Newton (1643–1727)','<i>Principia</i> (1687): gravitasi universal'],['Edmond Halley (1656–1742)','Memprediksi kembalinya komet (1705; kembali 1758)'],['Urbain Le Verrier &amp; J. C. Adams','Memprediksi Neptunus dari gangguan orbit Uranus (1846)']],
+ rumus:[['Hukum Kepler III','T² = (4π² / GM) · a³','T periode, a sumbu semi-mayor, M massa pusat'],['Gravitasi Newton','F = G m₁ m₂ / r²','G = 6,674×10⁻¹¹ N·m²/kg²'],['Kecepatan orbit lingkaran','v = √(GM / r)',''],['Kecepatan lepas','v<sub>esc</sub> = √(2GM / r)','Bumi ≈ 11,2 km/s'],['Persamaan vis-viva','v² = GM (2/r − 1/a)','Dasar perhitungan manuver orbit']],
+ guna:['Merancang orbit satelit (GPS, komunikasi, cuaca)','Lintasan misi antarplanet dan asisten gravitasi','Prediksi gerhana, okultasi, dan konjungsi','Pertahanan planet: memprediksi lintasan asteroid'],
+ kasus:[['Penemuan Neptunus (1846)','Anomali orbit Uranus dihitung menjadi posisi planet baru; Galle menemukannya dalam semalam pengamatan.'],['Presesi perihelion Merkurius','Selisih ±43″ per abad yang tak terjelaskan Newton diselesaikan oleh relativitas umum Einstein (1915).']],
+ ref:[R.hpKep,['HyperPhysics — Gravitation',HP+'grav.html'],R.carroll,R.nasa]},
+
+{id:'astrofisika',ikon:'☀️',nama:'Astrofisika & Fisika Bintang',ringkas:'Hukum fisika yang menjelaskan bintang, evolusinya, dan objek kompak.',
+ definisi:'Astrofisika menerapkan fisika (termodinamika, kuantum, nuklir, relativitas) untuk memahami sifat dan evolusi benda langit — dari Matahari hingga lubang hitam. Bintang adalah laboratorium alami pada kondisi ekstrem yang mustahil dibuat di Bumi.',
+ isi:['Radiasi benda hitam, spektrum, dan klasifikasi bintang (O B A F G K M)','Diagram Hertzsprung–Russell','Fusi nuklir: rantai proton-proton dan siklus CNO','Evolusi bintang: nebula → deret utama → raksasa → katai putih / supernova','Objek kompak: katai putih, bintang neutron, lubang hitam'],
+ tokoh:[['Cecilia Payne-Gaposchkin (1900–1979)','Menunjukkan bintang dominan hidrogen &amp; helium (1925)'],['Hertzsprung &amp; Russell (~1910)','Diagram warna/suhu–luminositas bintang'],['S. Chandrasekhar (1910–1995)','Batas massa katai putih ≈ 1,4 M☉'],['Jocelyn Bell Burnell','Menemukan pulsar (1967)'],['Hans Bethe (1906–2005)','Menjelaskan produksi energi bintang (1939)']],
+ rumus:[['Stefan–Boltzmann','L = 4π R² σ T⁴','σ = 5,670×10⁻⁸ W·m⁻²·K⁻⁴'],['Hukum pergeseran Wien','λ<sub>maks</sub> = b / T','b = 2,898×10⁻³ m·K; Matahari (5772 K) ≈ 502 nm'],['Hubungan massa–luminositas','L ∝ M<sup>3,5</sup>','Pendekatan untuk bintang deret utama'],['Jari-jari Schwarzschild','r<sub>s</sub> = 2GM / c²','Matahari ≈ 2,95 km'],['Kesetimbangan hidrostatik','dP/dr = − G M(r) ρ / r²','Tekanan melawan gravitasi']],
+ guna:['Memperkirakan umur &amp; nasib Matahari (±10 miliar tahun total)','Asal unsur berat: karbon, oksigen, besi dibentuk di bintang','Pengujian fisika ekstrem (gelombang gravitasi, materi neutron)','Pengembangan fusi terkendali di Bumi (belajar dari bintang)'],
+ kasus:[['SN 1987A','Supernova terdekat era modern; neutrinonya terdeteksi di Bumi, menguji teori keruntuhan inti.'],['Gambar M87* (2019) &amp; Sgr A* (2022)','Event Horizon Telescope memotret bayangan lubang hitam — konfirmasi visual relativitas umum.']],
+ ref:[R.hpStar,R.hpStarC,R.hpSun,R.carroll]},
+
+{id:'observasional',ikon:'🔭',nama:'Astronomi Observasional & Instrumentasi',ringkas:'Teleskop, detektor, dan teknik mengamati langit dari radio hingga sinar gamma.',
+ definisi:'Cabang ini berfokus pada cara kita mengamati: desain teleskop, spektroskopi, fotometri, dan pengamatan multi-panjang gelombang. Setiap rentang spektrum (radio, inframerah, optik, UV, sinar-X, gamma) membuka sisi berbeda alam semesta.',
+ isi:['Teleskop refraktor, reflektor, radio, ruang angkasa','Fotometri &amp; spektroskopi; efek Doppler','Optik adaptif dan interferometri','Astronomi multi-pesan: cahaya, neutrino, gelombang gravitasi'],
+ tokoh:[['Galileo Galilei (1564–1642)','Teleskop untuk astronomi (1609–1610): bulan Jupiter, fase Venus'],['Karl Jansky (1905–1950)','Penemu emisi radio dari Bimasakti (1932)'],['Edwin Hubble (1889–1953)','Mengukur galaksi dengan teleskop 100 inci Mt. Wilson'],['JWST (2021–)','Teleskop inframerah 6,5 m, mengamati galaksi paling awal']],
+ rumus:[['Resolusi (Rayleigh)','θ = 1,22 λ / D','Aperture D lebih besar → detail lebih halus'],['Efek Doppler','v<sub>r</sub> / c = Δλ / λ₀','Kecepatan radial dari pergeseran garis spektrum'],['Daya kumpul cahaya','∝ D²','Teleskop 2× diameter = 4× cahaya'],['Skala bayangan','s = 206265″ / f','f panjang fokus (satuan sama dengan 1 mm → ″/mm)']],
+ guna:['Menemukan eksoplanet lewat kecepatan radial &amp; transit','Memetakan hidrogen netral (garis 21 cm) untuk struktur galaksi','Pencitraan lubang hitam lewat interferometri global','Pemantauan objek dekat Bumi'],
+ kasus:[['Bulan-bulan Jupiter (1610)','Galileo menemukan empat bulan mengorbit Jupiter — bukti bahwa tidak semua benda mengorbit Bumi.'],['GW150914 (2015)','LIGO mendeteksi gelombang gravitasi dari penggabungan dua lubang hitam, membuka astronomi gelombang gravitasi.']],
+ ref:[R.nasa,R.iau,R.kutner]},
+
+{id:'planetologi',ikon:'🌍',nama:'Ilmu Planet & Eksoplanet',ringkas:'Planet tata surya, bulan, asteroid, komet, serta planet di bintang lain.',
+ definisi:'Planetologi mempelajari pembentukan, struktur, atmosfer, dan evolusi planet beserta benda kecil tata surya. Sejak 1995, penemuan ribuan eksoplanet memperluas cakupannya hingga ke sistem bintang lain.',
+ isi:['Pembentukan tata surya (nebula surya → cakram protoplanet)','Geologi &amp; atmosfer planet; medan magnet','Asteroid, komet, sabuk Kuiper','Deteksi eksoplanet: transit, kecepatan radial, pencitraan langsung'],
+ tokoh:[['Mayor &amp; Queloz (1995)','Eksoplanet pertama mengorbit bintang mirip Matahari: 51 Pegasi b (Nobel Fisika 2019)'],['Misi Kepler (2009–2018)','Menemukan ribuan kandidat planet lewat metode transit'],['Gerard Kuiper (1905–1973)','Pelopor ilmu planet modern; sabuk Kuiper dinamai atas namanya'],['IAU 2006','Menetapkan definisi planet; Pluto menjadi planet katai']],
+ rumus:[['Kedalaman transit','Δ F / F ≈ (R<sub>p</sub> / R<sub>*</sub>)²','Jupiter di depan Matahari ≈ 1%; Bumi ≈ 0,008%'],['Suhu kesetimbangan','T<sub>eq</sub> = T<sub>*</sub> √(R<sub>*</sub>/2a) · (1 − A)<sup>1/4</sup>','A = albedo; perkiraan zona layak huni'],['Kerapatan rata-rata','ρ = 3M / (4π R³)','Membedakan planet berbatu vs gas'],['Radius Hill','r<sub>H</sub> ≈ a (m / 3M)<sup>1/3</sup>','Wilayah dominasi gravitasi suatu planet']],
+ guna:['Mencari dunia layak huni','Memahami iklim Bumi lewat perbandingan Venus &amp; Mars','Merencanakan misi robotik dan sumber daya antariksa','Memantau ancaman asteroid'],
+ kasus:[['TRAPPIST-1 (2017)','Tujuh planet seukuran Bumi mengelilingi katai merah; tiga di zona layak huni.'],['DART (2022)','Wahana NASA sengaja menabrak asteroid Dimorphos dan berhasil mengubah orbitnya.']],
+ ref:[R.nasa,R.iau,R.carroll]},
+
+{id:'kosmologi',ikon:'🌌',nama:'Kosmologi & Astronomi Galaksi',ringkas:'Asal, struktur, dan nasib alam semesta; galaksi dan gugus galaksi.',
+ definisi:'Kosmologi mempelajari alam semesta secara keseluruhan: asal-usul (Big Bang), ekspansi, materi gelap, dan energi gelap. Astronomi galaksi/ekstragalaksi mengkaji struktur Bimasakti dan galaksi lain.',
+ isi:['Hukum Hubble dan ekspansi alam semesta','Radiasi latar kosmik (CMB, 2,725 K)','Materi gelap &amp; energi gelap','Nukleosintesis Big Bang dan pembentukan struktur skala besar'],
+ tokoh:[['Henrietta Leavitt (1868–1921)','Hubungan periode–luminositas Cepheid (1912): "penggaris" kosmik'],['Georges Lemaître (1894–1966)','Mengusulkan alam semesta mengembang dari "atom primeval"'],['Edwin Hubble (1929)','Hubungan jarak–kecepatan galaksi'],['Penzias &amp; Wilson (1965)','Menemukan CMB'],['Vera Rubin (1928–2016)','Kurva rotasi galaksi: bukti materi gelap']],
+ rumus:[['Hukum Hubble','v = H₀ d','H₀ ≈ 67–73 km/s/Mpc (ketegangan Hubble)'],['Pergeseran merah','1 + z = λ<sub>obs</sub> / λ<sub>em</sub>',''],['Rapat kritis','ρ<sub>c</sub> = 3H₀² / (8πG)','Menentukan geometri alam semesta'],['Usia kasar','t ≈ 1 / H₀','≈ 13,8 miliar tahun menurut model ΛCDM']],
+ guna:['Menentukan usia dan komposisi alam semesta','Menguji relativitas umum pada skala terbesar','Memahami asal unsur dan struktur galaksi','Mendorong teknologi detektor &amp; komputasi besar'],
+ kasus:[['Cepheid di Andromeda (1923–24)','Hubble membuktikan "nebula spiral" adalah galaksi di luar Bimasakti.'],['Ketegangan Hubble','Pengukuran H₀ lokal dan dari CMB berbeda signifikan — salah satu teka-teki terbuka kosmologi.']],
+ ref:[R.nasa,R.carroll,['HyperPhysics — Astrophysics/Cosmology',HP+'hframe.html']]},
+
+{id:'astrobiologi',ikon:'🧬',nama:'Astrobiologi',ringkas:'Mencari asal, evolusi, dan sebaran kehidupan di alam semesta.',
+ definisi:'Astrobiologi menggabungkan astronomi, biologi, dan geologi untuk menyelidiki kemungkinan kehidupan di luar Bumi, kondisi layak huni, serta jejak biosfer (biosignature).',
+ isi:['Zona layak huni (habitable zone)','Ekstremofil dan batas kehidupan','Biosignature &amp; teknosignature','Lautan bawah permukaan: Europa, Enceladus'],
+ tokoh:[['Frank Drake (1930–2022)','Persamaan Drake (1961), proyek SETI pertama'],['Carl Sagan (1934–1996)','Popularisasi sains planet &amp; pencarian kehidupan'],['Misi Cassini (2004–2017)','Menemukan semburan air di Enceladus']],
+ rumus:[['Persamaan Drake','N = R<sub>*</sub> · f<sub>p</sub> · n<sub>e</sub> · f<sub>l</sub> · f<sub>i</sub> · f<sub>c</sub> · L','Kerangka pemikiran, bukan prediksi pasti'],['Zona layak huni (kasar)','d ≈ √(L / L☉) AU','Jarak tempat air cair mungkin ada, nilai tepat bergantung model']],
+ guna:['Memandu seleksi target teleskop eksoplanet','Mengembangkan sensor kehidupan untuk misi Mars &amp; bulan es','Memahami asal-usul kehidupan di Bumi'],
+ kasus:[['Perseverance di Kawah Jezero (2021–)','Mengumpulkan sampel batuan untuk dicari jejak kehidupan mikroba masa lalu.'],['Semburan Enceladus','Air asin &amp; molekul organik di plume menunjukkan samudra bawah es yang berpotensi layak huni.']],
+ ref:[R.nasa,R.iau]},
+];
+
+/* =========================================================
+   4. DATA: ILMU FALAK
+   ========================================================= */
+const FALAK=[
+{id:'komponen',ikon:'📐',nama:'Komponen & Istilah Dasar',ringkas:'Deklinasi, asensio rekta, sudut waktu, perata waktu, azimut, tinggi, refraksi.',
+ lede:'Hampir semua perhitungan falak bertumpu pada segelintir besaran posisi benda langit. Memahaminya lebih dahulu membuat pembahasan kiblat, waktu shalat, hilal, dan gerhana menjadi jauh lebih mudah.',
+ bagian:[
+ ['Peta konsep',`<p>Bumi dibayangkan berada di pusat <b>bola langit</b>. Ekuator Bumi diproyeksikan menjadi <b>ekuator langit</b>; kutub Bumi menjadi kutub langit. Lintasan semu tahunan Matahari disebut <b>ekliptika</b>, miring ± 23°26′ terhadap ekuator langit (kemiringan sumbu Bumi, <i>ε</i>).</p>
+ ${TBL(['Istilah','Simbol','Arti ringkas'],[
+ ['Lintang tempat','φ','Jarak sudut dari ekuator Bumi; utara +, selatan −'],
+ ['Bujur tempat','λ','Jarak sudut dari meridian Greenwich; timur +'],
+ ['<b>Deklinasi</b>','δ','Jarak sudut benda langit dari ekuator langit; utara +, selatan −'],
+ ['Asensio rekta','α','Jarak sudut dari titik Aries sepanjang ekuator langit (jam/derajat)'],
+ ['Sudut waktu','H (t)','Jarak sudut benda dari meridian pengamat; 0° saat kulminasi, +ke barat'],
+ ['Perata waktu','e (EoT)','Selisih waktu matahari sejati dan rata-rata; berkisar ±16 menit'],
+ ['Azimut','A','Arah horizontal dihitung dari utara searah jarum jam'],
+ ['Tinggi','h','Sudut benda di atas ufuk; − bila di bawah ufuk'],
+ ['Refraksi &amp; dip','—','Pembiasan atmosfer (~34′ di ufuk) dan kerendahan ufuk karena ketinggian pengamat'],
+ ['Semidiameter','SD','Jari-jari sudut piringan Matahari/Bulan (±16′)']])}`],
+ ['Deklinasi — penjelasan mendalam',`<p><b>Definisi.</b> Deklinasi (<i>δ</i>) adalah sudut antara arah benda langit dan bidang ekuator langit. Bagi Matahari, δ berubah sepanjang tahun antara <b>−23°26′</b> (sekitar 22 Desember) dan <b>+23°26′</b> (sekitar 21 Juni), dan bernilai 0° pada ekuinoks (± 20–21 Maret &amp; 22–23 September).</p>
+ ${F('Rumus deklinasi Matahari','sin δ = sin ε · sin λ<sub>☉</sub>','ε ≈ 23,44°; λ☉ = bujur ekliptika Matahari (0° di ekuinoks Maret, 90° di solstis Juni)')}
+ ${F('Pendekatan sederhana (akurasi ±0,5°)','δ ≈ −23,44° · cos[ (360°/365) · (N + 10) ]','N = nomor hari dalam tahun (1 Januari = 1)')}
+ ${F('Tinggi saat kulminasi (tengah hari)','h<sub>kulm</sub> = 90° − | φ − δ |','Dasar penentuan Matahari tepat di atas kepala: terjadi bila δ = φ')}
+ <p><b>Cara mengetahuinya.</b></p>${UL([
+ '<b>Tabel ephemeris</b> — Ephemeris Hisab Rukyat Kemenag RI atau almanak astronomi memberi δ per jam.',
+ '<b>Hitungan</b> — algoritma <i>Astronomical Algorithms</i> (Meeus) menghitung bujur ekliptika lalu δ; ketelitian detik busur.',
+ '<b>Pengamatan</b> — ukur tinggi Matahari saat kulminasi (dengan gnomon/tongkat istiwa atau teodolit), lalu δ = φ ∓ (90° − h) sesuai posisi Matahari relatif zenit.'])}
+ <p><b>Sejarah singkat.</b> Eratosthenes mengukur kemiringan ekliptika ≈ 23°51′. Astronom era Khalifah al-Ma'mun (abad ke-9) mengukur sekitar 23°33′, dan para astronom Muslim seperti al-Battani menyusun tabel deklinasi (zij) yang menjadi rujukan berabad-abad.</p>
+ <p><b>Penerapan.</b> δ menentukan panjang siang–malam, sudut jam terbenam/terbit, waktu Ashar, bahkan arah Matahari saat <i>rashdul kiblat</i>.</p>`],
+ ['Perata waktu (equation of time)',`<p>Orbit Bumi lonjong dan sumbu miring membuat "tengah hari" Matahari sejati bergeser dari tengah hari jam. Pergeserannya <b>e</b> memuncak ≈ −14 menit (Februari) dan +16 menit (awal November).</p>
+ ${F('Waktu transit (tengah hari lokal)','T<sub>transit</sub> = 12 + Zona − λ/15 − e/60','dalam jam; Zona = +7 untuk WIB, +8 WITA, +9 WIT')}`],
+ ['Kasus & penerapan',CASES([
+ ['Hari tanpa bayangan','Kulminasi utama terjadi bila δ = φ. Untuk Semarang (φ ≈ −6,97°) kejadiannya sekitar 2–3 Maret dan 10–11 Oktober, saat benda tegak hampir tak berbayangan tepat tengah hari.'],
+ ['Pergeseran jadwal salat tahunan','Karena δ dan e berubah, waktu Subuh/Isya &amp; Maghrib bergeser sepanjang tahun; perubahan terbesar terjadi di lintang tinggi.']])],
+ ],
+ ref:[R.meeus,R.khazin,R.almanac,R.kemenag,R.saliba]},
+
+{id:'kiblat',ikon:'🕋',nama:'Arah Kiblat',ringkas:'Menentukan arah Ka\'bah dari suatu tempat: rumus, metode, sejarah, dan kasus.',
+ lede:'Menghadap kiblat adalah syarat sah shalat. Falak memberi cara kuantitatif menentukan arah itu dari titik mana pun di Bumi.',
+ bagian:[
+ ['Dasar & konsep',`<p>Arah kiblat adalah arah lingkaran besar (jalur terpendek di permukaan Bumi) menuju Ka'bah di Mekah. Koordinat Ka'bah yang lazim dipakai: <b>21°25′21″ LU, 39°49′34″ BT</b> (≈ 21,4225°, 39,8262°). Arah dinyatakan sebagai sudut dari utara sejati (azimut kiblat) atau dari titik barat/utara.</p>`],
+ ['Rumus',`${F('Azimut kiblat (trigonometri bola)','tan Q = sin C / ( cos φ<sub>x</sub> · tan φ<sub>k</sub> − sin φ<sub>x</sub> · cos C )','C = λ<sub>k</sub> − λ<sub>x</sub>; φx lintang tempat; φk = 21,4225°; λk = 39,8262°; Q dari utara, gunakan atan2 untuk kuadran benar')}
+ ${F('Versi klasik (cot B)','cot B = tan φ<sub>k</sub> · cos φ<sub>x</sub> / sin C − sin φ<sub>x</sub> / tan C','B = sudut kiblat; hasil dikonversi ke azimut sesuai kuadran')}
+ ${F('Jarak ke Ka\'bah','cos d = sin φ<sub>x</sub> sin φ<sub>k</sub> + cos φ<sub>x</sub> cos φ<sub>k</sub> cos C','jarak = d × 111,2 km/derajat')}
+ ${TBL(['Kota','Azimut kiblat (dari Utara)','Arah umum'],[['Semarang','≈ 294,5°','barat laut (± 24,5° dari barat ke utara)'],['Jakarta','≈ 295,2°','barat laut'],['Surabaya','≈ 294,0°','barat laut'],['Medan','≈ 292,8°','barat laut'],['Makassar','≈ 292,5°','barat laut'],['Jayapura','≈ 291,3°','barat laut']])}
+ ${NOTE('Nilai tabel dihitung dengan rumus di atas dan dibulatkan; gunakan Kalkulator di situs ini untuk angka sesuai koordinat Anda.')}`],
+ ['Cara mengetahui / metode',UL([
+ '<b>Kompas</b> — ukur utara magnet lalu koreksi deklinasi magnet setempat (mudah, namun rawan gangguan logam).',
+ '<b>Rashdul kiblat harian</b> — saat Matahari tepat di atas Ka\'bah (δ = 21°25′ LU), bayangan semua benda tegak lurus mengarah berlawanan dengan kiblat. Terjadi <b>27/28 Mei (±16:18 WIB)</b> dan <b>15/16 Juli (±16:27 WIB)</b>.',
+ '<b>Bayangan Matahari biasa</b> — hitung azimut Matahari pada jam tertentu, lalu tentukan selisihnya dengan azimut kiblat.',
+ '<b>Teodolit / GPS / aplikasi</b> — presisi tinggi, dipakai Kemenag dan lembaga falak untuk verifikasi arah masjid.'])],
+ ['Sejarah',TL([
+ ['Masa Nabi','Kiblat berpindah dari Baitul Maqdis ke Ka\'bah (QS. Al-Baqarah: 144), menjadi awal perhatian pada arah shalat.'],
+ ['Abad ke-9–11','Para astronom Muslim (al-Khwarizmi, al-Battani, al-Biruni) menyusun metode trigonometri bola untuk arah dan jarak antar kota.'],
+ ['Nusantara','Ulama falak seperti Syekh Muhammad Arsyad al-Banjari (abad ke-18) dikenal mengoreksi arah kiblat masjid; abad ke-20 tumbuh tokoh seperti Saadoe\'ddin Djambek dan Zubaer Umar al-Jailani yang menulis dan mengajar hisab praktis.'],
+ ['2010','Majelis Ulama Indonesia mengeluarkan fatwa bahwa kiblat Indonesia menghadap ke arah barat laut (bukan lurus ke barat).']])],
+ ['Kasus',CASES([
+ ['Masjid "kiblat miring"','Banyak masjid lama dibangun dengan arah barat lurus atau berdasarkan tradisi, sehingga menyimpang beberapa derajat; verifikasi dengan rashdul kiblat membantu koreksi saf.'],
+ ['Kiblat di pesawat/stasiun antariksa','Arah berubah terus; pedoman: menghadap perkiraan arah Ka\'bah sebisanya atau sesuai fatwa setempat.'],
+ ['Bumi bulat, bukan peta datar','Pada proyeksi peta datar arah tampak berbeda (misalnya terlihat ke barat), padahal lingkaran besar bergerak ke barat laut — penyebab salah paham umum.']])],
+ ],
+ ref:[R.khazin,R.meeus,R.kemenag,R.wikiFalak,R.saliba]},
+
+{id:'shalat',ikon:'🕌',nama:'Waktu Shalat',ringkas:'Dzuhur, Ashar, Maghrib, Isya, Subuh: definisi astronomi, rumus, kriteria, dan kasus.',
+ lede:'Waktu shalat ditentukan oleh posisi Matahari terhadap ufuk. Fiqih menentukan batas (kapan), falak menerjemahkannya menjadi sudut dan rumus.',
+ bagian:[
+ ['Batas astronomis tiap waktu',TBL(['Waktu','Definisi fiqih','Kriteria astronomis'],[
+ ['Dzuhur','Matahari tergelincir (zawal) dari meridian','Sedikit setelah transit; ditambah ihtiyat ±2 menit'],
+ ['Ashar','Panjang bayangan = panjang benda (mazhab jumhur) + bayangan saat zawal','cot h = tan|φ − δ| + 1'],
+ ['Maghrib','Terbenamnya Matahari','h = −(0°50′ + dip) ≈ −0,83° s.d. −1° (Kemenag memakai −1° dengan koreksi)'],
+ ['Isya','Hilangnya mega merah (syafaq)','h = −18° (kriteria umum Indonesia)'],
+ ['Subuh','Terbitnya fajar shadiq','h = −20° (Kemenag RI); ada kajian dan perbedaan pendapat −18° hingga −20°'],
+ ['Terbit / Syuruq','Berakhirnya waktu Subuh','h ≈ −0,83° sampai −1°']])],
+ ['Rumus',`${F('Sudut waktu Matahari untuk tinggi h','cos H = ( sin h − sin φ sin δ ) / ( cos φ cos δ )','H dalam derajat; bagi 15 untuk jam')}
+ ${F('Waktu shalat','Waktu = T<sub>transit</sub> ± H / 15','Dzuhur = Ttransit + ihtiyat; Ashar &amp; Maghrib = + H/15; Subuh &amp; Terbit = − H/15')}
+ ${F('Tinggi Matahari saat Ashar','cot h<sub>A</sub> = tan | φ − δ | + 1','untuk mazhab yang memakai bayangan = tinggi benda (Syafi\'i, Maliki, Hambali)')}
+ ${NOTE('Contoh Semarang, 22 November 2026 (hasil kalkulator situs ini, parameter −20°/−18°, tanpa ihtiyat): Subuh ±03:47, Terbit ±05:11, Dzuhur ±11:26, Ashar ±14:48, Maghrib ±17:38, Isya ±18:53 WIB. Gunakan jadwal resmi Kemenag untuk ibadah.')}`],
+ ['Cara mengetahui',UL(['<b>Jadwal resmi</b> — Kemenag RI (Bimas Islam), lembaga ormas, atau aplikasi berbasis perhitungan yang sama.','<b>Hitung sendiri</b> — δ &amp; e dari ephemeris, φ &amp; λ dari GPS, lalu rumus di atas.','<b>Pengamatan langsung</b> — tongkat istiwa/bencet: bayangan terpendek = kulminasi (Dzuhur), rasio bayangan untuk Ashar, observasi ufuk untuk Maghrib dan fajar.'])],
+ ['Sejarah',TL([
+ ['Zaman awal','Waktu ditentukan dari bayangan dan tanda alam langsung (hadis tentang waktu-waktu shalat).'],
+ ['Abad ke-8–10','Astronom seperti al-Khwarizmi dan al-Battani menyusun tabel waktu shalat trigonometris untuk Baghdad dan kota lain.'],
+ ['Abad ke-13–14','Muwaqqit (penjaga waktu) di masjid-masjid besar seperti Kairo dan Damaskus menyusun tabel waktu berdasarkan lintang.'],
+ ['Modern','Perhitungan komputer dan GPS; kriteria sudut Subuh/Isya terus dikaji dengan pengamatan fajar di berbagai lokasi.']])],
+ ['Kasus',CASES([
+ ['Lintang tinggi','Di wilayah dekat kutub saat musim panas, Matahari tak cukup turun untuk mencapai −18° sehingga Isya/Subuh tak terdefinisi; solusi fiqih: waktu terdekat, setengah malam, atau mengikuti Mekah.'],
+ ['Perbedaan sudut Subuh','Pengamatan fajar menunjukkan variasi sudut; perbedaan beberapa menit pada jadwal antar lembaga berasal dari sini.'],
+ ['Dataran tinggi &amp; pantai','Ketinggian pengamat menurunkan ufuk (dip), sehingga Maghrib sedikit lebih lambat bagi pengamat di tempat tinggi.']])],
+ ],
+ ref:[R.kemenag,R.khazin,R.meeus,R.almanac]},
+
+{id:'hilal',ikon:'🌙',nama:'Awal Bulan Qomariyah',ringkas:'Ijtimak, hilal, hisab &amp; rukyat, kriteria visibilitas, dan kasus perbedaan awal bulan.',
+ lede:'Bulan Hijriah mengikuti fase Bulan. Awal Ramadan, Syawal, dan Dzulhijjah menentukan puasa, Idulfitri, dan Idul Adha — maka falak berperan penting.',
+ bagian:[
+ ['Konsep',`<p><b>Ijtimak</b> (konjungsi) adalah saat Bulan dan Matahari berada pada bujur ekliptika yang sama. <b>Hilal</b> adalah sabit tipis pertama yang tampak setelah ijtimak, sesaat setelah Matahari terbenam. Satu bulan sinodik rata-rata <b>29,53059 hari</b> sehingga bulan hijriah berumur 29 atau 30 hari, dan tahun hijriah ±354–355 hari (≈ 11 hari lebih pendek dari tahun Masehi).</p>
+ ${NOTE('Dasar syar\'i: perintah berpuasa dan berbuka dikaitkan dengan melihat hilal, dan bila terhalang maka bulan digenapkan 30 hari (hadis riwayat al-Bukhari &amp; Muslim).')}`],
+ ['Komponen & rumus',`${F('Elongasi Bulan–Matahari','cos E = sin δ<sub>☉</sub> sin δ<sub>☽</sub> + cos δ<sub>☉</sub> cos δ<sub>☽</sub> cos (α<sub>☉</sub> − α<sub>☽</sub>)','elongasi geosentrik, dalam derajat')}
+ ${F('Tinggi hilal','h<sub>☽</sub> = arcsin( sin φ sin δ<sub>☽</sub> + cos φ cos δ<sub>☽</sub> cos H<sub>☽</sub> )','dikoreksi paralaks, refraksi, dan semidiameter (tinggi toposentrik atas)')}
+ ${F('Umur bulan','Umur = waktu saat Maghrib − waktu ijtimak','umumnya &gt; 8 jam agar mungkin terlihat (praktis lebih lama)')}
+ ${F('Lebar sabit (iluminasi)','k = (1 − cos E) / 2','fraksi piringan yang terang (E = elongasi)')}`],
+ ['Kriteria penentuan awal bulan',TBL(['Pendekatan','Gagasan pokok'],[
+ ['Rukyat','Pengamatan langsung hilal setelah Maghrib; bila tak terlihat → istikmal (genap 30 hari).'],
+ ['Wujudul hilal','Awal bulan bila ijtimak sebelum Maghrib dan Bulan sudah di atas ufuk (> 0°) saat Matahari terbenam.'],
+ ['Imkanur rukyat (MABIMS)','Awal bulan bila hilal secara hisab mungkin terlihat. Kriteria baru (Neo-MABIMS): tinggi ≥ 3° dan elongasi ≥ 6,4°.'],
+ ['Kalender global','Gagasan penyatuan kalender dunia (mis. kesepakatan Istanbul 2016) — masih dikaji dan diperdebatkan.']])],
+ ['Cara mengetahui',UL(['<b>Hisab</b> — hitung posisi Bulan dan Matahari dari ephemeris untuk saat Maghrib di titik pengamatan.','<b>Rukyat</b> — pengamatan lapangan dengan teleskop/teodolit di lokasi dengan ufuk barat terbuka; hasil dilaporkan dalam sidang isbat.','<b>Isbat</b> — di Indonesia, Kemenag menggelar sidang isbat berdasar data hisab dan laporan rukyat.'])],
+ ['Sejarah',TL([
+ ['Pra-Islam &amp; Awal Islam','Bangsa Arab memakai bulan lunar; Umar bin Khattab menetapkan permulaan penanggalan Hijriah (tahun hijrah).'],
+ ['Abad ke-9–15','Astronom seperti al-Khwarizmi dan Ibn Yunus menyusun tabel (zij) posisi Bulan dan kriteria visibilitas.'],
+ ['Modern','Observatorium dan citra digital; kriteria visibilitas diperbarui dari pengamatan jangka panjang.']])],
+ ['Kasus',CASES([
+ ['Idulfitri 1444 H (2023)','Terjadi perbedaan: sebagian ormas menetapkan 21 April 2023 dan pemerintah 22 April 2023, akibat perbedaan kriteria dan kondisi hilal saat Maghrib.'],
+ ['Hilal sangat rendah','Pada ketinggian &lt; 2° hilal praktis mustahil dilihat mata telanjang; hasil rukyat klaim perlu pemeriksaan teliti.'],
+ ['Perbedaan matlak','Satu hilal berlaku lokal atau global? — perbedaan pandangan fiqih yang tetap membuka diskusi.']])],
+ ],
+ ref:[R.kemenag,R.khazin,R.meeus,R.almanac,['Wikipedia — Kalender Hijriah','https://id.wikipedia.org/wiki/Kalender_Hijriah']]},
+
+{id:'gerhana',ikon:'🌑',nama:'Gerhana Matahari & Bulan',ringkas:'Syarat terjadinya gerhana, jenis, siklus Saros, hukum shalat gerhana, dan kasus.',
+ lede:'Gerhana adalah penampakan langit yang oleh Rasulullah ﷺ dijadikan momen ibadah: shalat gerhana (kusuf untuk Matahari, khusuf untuk Bulan), zikir, dan sedekah.',
+ bagian:[
+ ['Konsep & syarat',`<p><b>Gerhana Matahari</b> terjadi pada saat ijtimak (Bulan baru) ketika Bulan menutupi Matahari. <b>Gerhana Bulan</b> terjadi saat istiqbal (purnama) ketika Bulan memasuki bayangan Bumi. Gerhana tak terjadi tiap bulan karena orbit Bulan miring ±5,145° terhadap ekliptika: gerhana hanya mungkin bila ijtimak/istiqbal terjadi dekat <b>titik simpul (node)</b>.</p>
+ ${TBL(['Jenis','Keterangan'],[['Matahari total','Bulan menutup seluruh piringan Matahari; jalur totalitas sempit (±100–250 km)'],['Matahari cincin','Bulan di dekat apogee, tampak lebih kecil; tampak cincin api'],['Matahari sebagian','Hanya sebagian piringan Matahari tertutup'],['Matahari hibrida','Berubah antara total dan cincin sepanjang jalur'],['Bulan total / sebagian / penumbra','Bergantung seberapa jauh Bulan masuk umbra Bumi']])}`],
+ ['Rumus & besaran',`${F('Periode Saros','1 Saros = 223 bulan sinodik ≈ 6585,32 hari','≈ 18 tahun 11⅓ hari; gerhana serupa berulang dengan bergeser ±120° bujur')}
+ ${F('Tahun gerhana','346,62 hari','selang Matahari melewati titik simpul yang sama')}
+ ${F('Magnitudo gerhana Bulan (umbra)','M = (R<sub>umbra</sub> + SD<sub>☽</sub> − Δ) / (2 SD<sub>☽</sub>)','Δ = jarak pusat Bulan–pusat umbra')}
+ ${F('Batas lintang Bulan untuk gerhana','| β | ≲ 1,5° (matahari) / ≲ 1,0° (bulan umbra)','nilai pendekatan; dihitung rinci memakai elemen Bessel')}`],
+ ['Cara mengetahui',UL(['<b>Elemen Besselian</b> — dipublikasikan di situs NASA Eclipse (Fred Espenak) untuk prediksi tepat jalur dan waktu.','<b>Hisab</b> — hitung posisi Bulan &amp; Matahari (Meeus bab 54), tentukan kontak pertama–keempat.','<b>Pengamatan</b> — kacamata surya sertifikasi ISO 12312-2 atau proyeksi lubang jarum; <u>jangan</u> melihat Matahari langsung dengan mata/teleskop tanpa filter.'])],
+ ['Ibadah',UL(['<b>Shalat Gerhana (Kusuf/Khusuf)</b> — dua rakaat dengan dua kali rukuk per rakaat (menurut jumhur), disusul khutbah dan zikir; disyariatkan menurut hadis al-Bukhari &amp; Muslim.','Perintah berdoa, bertakbir, bersedekah, dan beristighfar saat gerhana.','Gerhana adalah tanda kekuasaan Allah dan bukan akibat kematian/kelahiran seseorang — sikap yang diajarkan Nabi ﷺ saat gerhana ketika putranya Ibrahim wafat (riwayat al-Bukhari &amp; Muslim).'])],
+ ['Sejarah',TL([
+ ['Babilonia','Mencatat gerhana sistematis dan menemukan siklus Saros (±abad ke-8 SM).'],
+ ['Abad ke-9–13','Astronom Muslim mengobservasi gerhana untuk menentukan bujur kota dan memperbaiki tabel Bulan; observatorium Maragha dan Samarkand memuat pengamatan gerhana.'],
+ ['1919','Gerhana total 29 Mei 1919 digunakan Eddington untuk menguji pembelokan cahaya oleh gravitasi (relativitas umum).'],
+ ['Kini','Prediksi akurat hingga detik dan ratusan tahun ke depan dengan elemen Bessel &amp; pemodelan orbit Bulan.']])],
+ ['Kasus',CASES([
+ ['Gerhana Matahari Total, 9 Maret 2016','Gerhana matahari total melintasi Indonesia (Sumatra Selatan hingga Maluku Utara); menjadi momentum edukasi publik dan wisata astronomi nasional.'],
+ ['Gerhana Matahari Hibrida, 20 April 2023','Jalur totalitas melintasi Samudra Hindia dan sebagian Papua; sebagian besar Indonesia melihatnya sebagai gerhana sebagian.'],
+ ['Gerhana Bulan total 7–8 September 2025','Terlihat luas di Indonesia (dini hari WIB), menjadi contoh Bulan merah darah akibat pembiasan cahaya Matahari oleh atmosfer Bumi.']])],
+ ],
+ ref:[R.nasaEcl,R.meeus,R.khazin,R.kemenag,['Wikipedia — Gerhana','https://id.wikipedia.org/wiki/Gerhana']]},
+];
+
+/* =========================================================
+   5. ROUTER & HALAMAN
+   ========================================================= */
+const app=document.getElementById('app');
+const esc=s=>s;
+function setActive(r){document.querySelectorAll('nav.menu a').forEach(a=>a.classList.toggle('on',a.dataset.r===r));document.getElementById('menu').classList.remove('open')}
+
+function pageHome(){
+  return `
+  <section class="hero">
+    <div>
+      <span class="tag v">Ensiklopedia ringkas · Edukasi terbuka</span>
+      <h1>Menjelajah <span class="grad">Samawat</span>:<br>Astronomi &amp; Ilmu Falak</h1>
+      <p class="lead">Dari paralaks bintang hingga ekspansi alam semesta; dari deklinasi Matahari hingga arah kiblat dan awal Ramadan. Setiap laman memuat tokoh, rumus, kegunaan, kasus, dan referensi.</p>
+      <div class="cta"><a class="btn pri" href="#/atlas">Buka Atlas Ilmu →</a><a class="btn red" href="#/falak">Ilmu Falak</a><a class="btn" href="#/belajar">Jalur Belajar</a></div>
+    </div>
+    <div class="logo-stage"><img src="assets/logo.png" alt="Logo SamawatLab"><i class="dot"></i></div>
+  </section>
+
+  <h2 class="sec">Bagan Besar: Atlas Ilmu</h2>
+  <p class="sub">Klik sebuah volume untuk membuka bagan bab; klik bab untuk membuka bagan konsep; klik konsep untuk membaca ringkasan, referensi, dan penelitian terkait. Seperti HyperPhysics, tetapi berpusat pada astronomi dan falak.</p>
+  ${atlasSearchBox()}
+  ${atlasHomeMap()}
+  <h2 class="sec">Peta Belajar</h2>
+  <p class="sub">Alur yang disarankan: garis besar astronomi → cabang-cabangnya → ilmu falak yang menerapkannya untuk ibadah.</p>
+  <div class="grid">
+    <a class="card" href="#/astronomi"><span class="ic">✨</span><span class="tag b">Fondasi</span><h3>Garis Besar Astronomi</h3><p>Definisi, skala jarak, sejarah dan peta seluruh cabang.</p></a>
+    <a class="card" href="#/atlas"><span class="ic">🗺️</span><span class="tag">13 volume · 1.298 konsep</span><h3>Atlas Ilmu</h3><p>Bagan interaktif berjenjang: volume → bab → konsep.</p></a>
+    <a class="card" href="#/cabang"><span class="ic">🔭</span><span class="tag">7 cabang</span><h3>Cabang Ilmu</h3><p>Astrometri, mekanika langit, astrofisika, observasional, planet, kosmologi, astrobiologi.</p></a>
+    <a class="card" href="#/falak"><span class="ic">🌙</span><span class="tag v">Astronomi Islam</span><h3>Ilmu Falak</h3><p>Kiblat, waktu shalat, awal bulan, gerhana, dan komponennya.</p></a>
+    <a class="card" href="#/alat"><span class="ic">🧮</span><span class="tag b">Interaktif</span><h3>Kalkulator Falak</h3><p>Hitung deklinasi, kiblat, dan jadwal shalat perkiraan.</p></a>
+  </div>
+
+  <div class="falak-banner">
+    <div><span class="tag">Sorotan</span><h2 style="font-size:1.5rem;margin:6px 0">Falak: ilmu langit untuk ibadah</h2>
+      <p style="color:#dcd6ff;max-width:60ch">Mulai dari komponen dasar seperti <b>deklinasi</b> — sudut yang menentukan panjang siang, bayangan, hingga waktu Ashar — kemudian lanjutkan ke kiblat, waktu shalat, hilal, dan gerhana.</p></div>
+    <a class="btn pri" href="#/falak/komponen">Mulai dari Deklinasi →</a>
+  </div>
+  <h2 class="sec">Artikel Mendalam</h2>
+  <div class="search"><input id="q" type="search" placeholder="Filter artikel… (mis. Kepler, deklinasi, kiblat)"></div>
+  <div class="grid" id="homeGrid"></div>
+  `;
+}
+function homeCards(q){
+  q=(q||'').toLowerCase();
+  const all=[...CABANG.map(c=>({h:'#/cabang/'+c.id,i:c.ikon,t:c.nama,p:c.ringkas,tag:'Astronomi'})),...FALAK.map(c=>({h:'#/falak/'+c.id,i:c.ikon,t:c.nama,p:c.ringkas,tag:'Falak'}))];
+  const list=all.filter(x=>(x.t+x.p).toLowerCase().includes(q));
+  return list.map(x=>`<a class="card" href="${x.h}"><span class="ic">${x.i}</span><span class="tag ${x.tag==='Falak'?'v':'b'}">${x.tag}</span><h3>${x.t}</h3><p>${x.p}</p></a>`).join('')||'<p class="sub">Tidak ada topik yang cocok.</p>';
+}
+
+function layout(crumb,inner,toc,pager){
+  return `<div class="layout"><aside class="toc"><h4>Di halaman ini</h4>${toc}</aside><article>
+    <div class="crumb">${crumb}</div>${inner}${pager||''}</article></div>`;
+}
+
+function pageAstronomi(){
+  const secs=[
+   ['definisi','Apa itu astronomi?',`<p>Astronomi adalah ilmu yang mempelajari benda dan fenomena di luar atmosfer Bumi: Matahari, planet, bintang, galaksi, hingga alam semesta secara keseluruhan. Kata ini berasal dari bahasa Yunani <i>astron</i> (bintang) dan <i>nomos</i> (hukum). Dalam bahasa Arab, ilmu ini dikenal sebagai <i>'ilm al-hay'ah</i> atau <i>'ilm al-falak</i>.</p>
+   <p>Berbeda dengan astrologi yang tidak berbasis bukti ilmiah, astronomi bekerja dengan pengamatan, hukum fisika, dan pemodelan matematika yang dapat diuji.</p>`],
+   ['skala','Skala & satuan jarak',TBL(['Satuan','Nilai','Contoh'],[['1 Satuan Astronomi (AU)','1,496×10¹¹ m','Jarak rata-rata Bumi–Matahari'],['1 tahun cahaya (ly)','9,461×10¹⁵ m','Alpha Centauri ≈ 4,37 ly'],['1 parsek (pc)','3,086×10¹⁶ m = 3,26 ly','Jarak yang memberi paralaks 1″'],['1 kiloparsek','10³ pc','Pusat Bimasakti ≈ 8 kpc'],['1 megaparsek','10⁶ pc','Galaksi Andromeda ≈ 0,78 Mpc']])],
+   ['peta','Peta cabang ilmu',`<p>Astronomi modern terbagi ke dalam beberapa cabang yang saling bergantung. Klik untuk membuka laman lengkap.</p>
+    <div class="grid">${CABANG.map(c=>`<a class="card" href="#/cabang/${c.id}"><span class="ic">${c.ikon}</span><h3>${c.nama}</h3><p>${c.ringkas}</p></a>`).join('')}</div>`],
+   ['sejarah','Garis waktu penemuan',TL([
+    ['~240 SM','Eratosthenes mengukur keliling Bumi; Aristarkhos mengusulkan model heliosentris.'],
+    ['~150 M','Ptolemaeus menulis <i>Almagest</i>, model geosentris yang dominan berabad-abad.'],
+    ['Abad ke-9–15','Peradaban Islam: al-Khwarizmi, al-Battani, al-Biruni, Ibn al-Haytham, Nasir al-Din al-Tusi, Ulugh Beg menyusun tabel (zij), instrumen, dan observatorium.'],
+    ['1543','Kopernikus menerbitkan <i>De revolutionibus</i> (heliosentris).'],
+    ['1609–1619','Kepler merumuskan tiga hukum gerak planet; Galileo mengarahkan teleskop ke langit (1609/1610).'],
+    ['1687','Newton menerbitkan <i>Principia</i>: gravitasi universal.'],
+    ['1781 / 1846','Herschel menemukan Uranus; Neptunus ditemukan lewat prediksi matematis.'],
+    ['1915 / 1929','Einstein merumuskan relativitas umum; Hubble menemukan ekspansi alam semesta.'],
+    ['1965 / 1967','Penemuan CMB; penemuan pulsar.'],
+    ['1995','Eksoplanet pertama di bintang mirip Matahari (51 Pegasi b).'],
+    ['2015–2022','Gelombang gravitasi (LIGO), foto lubang hitam (EHT), dan JWST beroperasi.']])],
+   ['bagaimana','Bagaimana astronom bekerja?',UL(['<b>Mengamati</b> — teleskop dan detektor di Bumi atau ruang angkasa.','<b>Mengukur</b> — posisi, kecerlangan, spektrum, waktu.','<b>Memodelkan</b> — rumus fisika dan simulasi komputer.','<b>Menguji</b> — prediksi diuji dengan pengamatan baru; teori yang gagal direvisi.'])],
+   ['ref','Referensi',REFS([R.hp,R.hpIdx,R.hpSun,R.nasa,R.iau,R.wikiAstro,R.kutner,R.carroll,R.saliba])]
+  ];
+  const toc=secs.map(s=>`<a href="#" data-sec="${s[0]}">${s[1]}</a>`).join('');
+  const inner=`<span class="tag b">Fondasi</span><h1>Garis Besar Astronomi</h1><p class="lede">Gambaran menyeluruh sebelum masuk ke tiap cabang: apa yang dipelajari, bagaimana skalanya, dan siapa yang berjasa.</p>`+secs.map(s=>`<section id="${s[0]}"><h2>${s[1]}</h2>${s[2]}</section>`).join('');
+  return layout('<a href="#/">Beranda</a> / Astronomi',inner,toc,`<div class="pager"><span></span><a class="btn" href="#/cabang">Lanjut: Cabang Ilmu →</a></div>`);
+}
+
+function pageCabangList(){
+  return `<section style="padding:42px 0 20px"><span class="tag">7 cabang</span><h1 style="font-size:2.3rem">Cabang Ilmu Astronomi</h1>
+   <p class="sub">Setiap laman memuat definisi, topik inti, penemu/tokoh, rumus, kegunaan, kasus, dan referensi.</p>
+   <div class="grid">${CABANG.map(c=>`<a class="card" href="#/cabang/${c.id}"><span class="ic">${c.ikon}</span><h3>${c.nama}</h3><p>${c.ringkas}</p></a>`).join('')}</div></section>`;
+}
+function pageCabang(id){
+  const i=CABANG.findIndex(c=>c.id===id); if(i<0)return pageCabangList();
+  const c=CABANG[i];
+  const secs=[
+   ['definisi','Definisi',`<p>${c.definisi}</p>`],
+   ['isi','Apa yang dipelajari',UL(c.isi)],
+   ['tokoh','Penemu & tokoh',PEOPLE(c.tokoh)],
+   ['rumus','Rumus penting',c.rumus.map(r=>F(r[0],r[1],r[2])).join('')],
+   ['guna','Kegunaan',UL(c.guna)],
+   ['kasus','Kasus & contoh nyata',CASES(c.kasus)],
+   ['ref','Referensi',REFS(c.ref)]
+  ];
+  const toc=secs.map(s=>`<a href="#" data-sec="${s[0]}">${s[1]}</a>`).join('')+`<hr><h4>Cabang lain</h4>`+CABANG.map(x=>`<a href="#/cabang/${x.id}" class="${x.id===id?'on':''}">${x.ikon} ${x.nama.split(' &')[0]}</a>`).join('');
+  const inner=`<span class="tag b">Cabang astronomi</span><h1>${c.ikon} ${c.nama}</h1><p class="lede">${c.ringkas}</p>`+secs.map(s=>`<section id="${s[0]}"><h2>${s[1]}</h2>${s[2]}</section>`).join('');
+  const prev=CABANG[i-1],next=CABANG[i+1];
+  return layout('<a href="#/">Beranda</a> / <a href="#/cabang">Cabang Ilmu</a> / '+c.nama,inner,toc,
+    `<div class="pager">${prev?`<a class="btn" href="#/cabang/${prev.id}">← ${prev.nama.split(' &')[0]}</a>`:'<span></span>'}${next?`<a class="btn" href="#/cabang/${next.id}">${next.nama.split(' &')[0]} →</a>`:`<a class="btn red" href="#/falak">Lanjut: Ilmu Falak →</a>`}</div>`);
+}
+
+function pageFalakList(){
+  const secs=[
+   ['apa','Apa itu Ilmu Falak?',`<p>Ilmu falak ('<i>ilm al-falak</i>), atau astronomi Islam, mempelajari lintasan benda langit — terutama Matahari, Bulan, dan Bumi — untuk keperluan ibadah dan kalender: <b>arah kiblat, waktu shalat, awal bulan qomariyah, dan gerhana</b>. Di Indonesia dikenal pula istilah <i>hisab</i> (perhitungan) dan <i>rukyat</i> (pengamatan).</p>`],
+   ['ibadah','Hubungan dengan ibadah',TBL(['Ibadah','Persoalan astronomi','Laman'],[
+     ['Shalat 5 waktu','Posisi Matahari terhadap ufuk (Subuh–Isya)','<a href="#/falak/shalat">Waktu Shalat</a>'],
+     ['Menghadap kiblat','Arah lingkaran besar ke Ka\'bah','<a href="#/falak/kiblat">Arah Kiblat</a>'],
+     ['Puasa &amp; hari raya','Awal Ramadan, Syawal, Dzulhijjah (hilal)','<a href="#/falak/hilal">Awal Bulan</a>'],
+     ['Shalat gerhana','Gerhana Matahari &amp; Bulan','<a href="#/falak/gerhana">Gerhana</a>'],
+     ['Semua hal di atas','Deklinasi, perata waktu, azimut, tinggi','<a href="#/falak/komponen">Komponen Dasar</a>']])],
+   ['laman','Laman falak',`<div class="grid">${FALAK.map(f=>`<a class="card" href="#/falak/${f.id}"><span class="ic">${f.ikon}</span><h3>${f.nama}</h3><p>${f.ringkas}</p></a>`).join('')}</div>`],
+   ['sejarah','Sejarah ringkas',TL([
+    ['Abad ke-8','Terjemahan <i>Sindhind</i> dan karya Yunani ke bahasa Arab di Baghdad; berdiri tradisi zij.'],
+    ['Abad ke-9','Al-Khwarizmi menyusun zij; al-Ma\'mun mendirikan observatorium; Banu Musa dan al-Farghani menulis ringkasan astronomi.'],
+    ['Abad ke-9–10','Al-Battani (858–929) memperbaiki parameter Matahari, menggunakan trigonometri modern, menghitung panjang tahun tropis.'],
+    ['Abad ke-11','Al-Biruni mengembangkan metode kiblat, menentukan jari-jari Bumi, dan menulis tentang kalender.'],
+    ['Abad ke-13–15','Observatorium Maragha (Nasir al-Din al-Tusi) dan Samarkand (Ulugh Beg) menghasilkan zij terkenal.'],
+    ['Nusantara','Ilmu falak berkembang di pesantren dan lembaga hisab-rukyat; penyusunan kalender, jadwal salat, dan koreksi arah kiblat.']])],
+   ['ref','Referensi',REFS([R.wikiFalak,R.khazin,R.kemenag,R.almanac,R.meeus,R.saliba])]
+  ];
+  const toc=secs.map(s=>`<a href="#" data-sec="${s[0]}">${s[1]}</a>`).join('')+`<hr><h4>Laman falak</h4>`+FALAK.map(x=>`<a href="#/falak/${x.id}">${x.ikon} ${x.nama}</a>`).join('');
+  const inner=`<span class="tag v">Astronomi Islam</span><h1>🌙 Ilmu Falak</h1><p class="lede">Astronomi yang berpadu dengan ibadah: arah kiblat, waktu shalat, awal bulan qomariyah, dan gerhana — lengkap dengan komponen, rumus, sejarah, penerapan, dan kasus.</p>`+secs.map(s=>`<section id="${s[0]}"><h2>${s[1]}</h2>${s[2]}</section>`).join('');
+  return layout('<a href="#/">Beranda</a> / Ilmu Falak',inner,toc,`<div class="pager"><a class="btn" href="#/cabang">← Cabang Ilmu</a><a class="btn red" href="#/falak/komponen">Mulai: Komponen Dasar →</a></div>`);
+}
+function pageFalak(id){
+  const i=FALAK.findIndex(c=>c.id===id); if(i<0)return pageFalakList();
+  const f=FALAK[i];
+  const secs=[...f.bagian.map((b,k)=>['s'+k,b[0],b[1]]),['ref','Referensi',REFS(f.ref)]];
+  const toc=secs.map(s=>`<a href="#" data-sec="${s[0]}">${s[1]}</a>`).join('')+`<hr><h4>Laman falak</h4>`+FALAK.map(x=>`<a href="#/falak/${x.id}" class="${x.id===id?'on':''}">${x.ikon} ${x.nama}</a>`).join('');
+  const inner=`<span class="tag v">Ilmu Falak</span><h1>${f.ikon} ${f.nama}</h1><p class="lede">${f.lede}</p>`+secs.map(s=>`<section id="${s[0]}"><h2>${s[1]}</h2>${s[2]}</section>`).join('');
+  const prev=FALAK[i-1],next=FALAK[i+1];
+  return layout('<a href="#/">Beranda</a> / <a href="#/falak">Ilmu Falak</a> / '+f.nama,inner,toc,
+   `<div class="pager">${prev?`<a class="btn" href="#/falak/${prev.id}">← ${prev.nama}</a>`:'<a class="btn" href="#/falak">← Ilmu Falak</a>'}${next?`<a class="btn" href="#/falak/${next.id}">${next.nama} →</a>`:`<a class="btn red" href="#/alat">Coba Kalkulator →</a>`}</div>`);
+}
+
+function pageReferensi(){
+  const groups=[['Rujukan umum &amp; HyperPhysics',[R.hp,R.hpIdx,R.hpKep,R.hpStar,R.hpStarC,R.hpSun]],['Lembaga &amp; misi',[R.nasa,R.iau,R.esaGaia,R.nasaEcl]],['Ilmu falak',[R.kemenag,R.khazin,R.almanac,R.wikiFalak,R.saliba]],['Buku teks &amp; algoritma',[R.meeus,R.carroll,R.kutner]]];
+  return `<section style="padding:42px 0"><span class="tag b">Daftar pustaka</span><h1 style="font-size:2.2rem">Referensi</h1>
+   <p class="sub">Kumpulan sumber yang menjadi rujukan laman-laman situs ini. Tautan luar dapat berubah; periksa kembali sebelum dikutip. Topik umumnya mengikuti struktur materi <a href="http://hyperphysics.phy-astr.gsu.edu/hbase/hframe.html" target="_blank" rel="noopener">HyperPhysics</a>.</p>
+   ${groups.map(g=>`<h2 class="sec" style="font-size:1.2rem">${g[0]}</h2>${REFS(g[1])}`).join('')}</section>`;
+}
+
+/* =========================================================
+   6. KALKULATOR FALAK (edukatif)
+   ========================================================= */
+const KOTA={Semarang:[-6.9666,110.4203,7],Jakarta:[-6.2088,106.8456,7],Bandung:[-6.9175,107.6191,7],Yogyakarta:[-7.7956,110.3695,7],Surabaya:[-7.2575,112.7521,7],Medan:[3.5952,98.6722,7],Makassar:[-5.1477,119.4327,8],Denpasar:[-8.6705,115.2126,8],Jayapura:[-2.5337,140.7181,9],Mekah:[21.4225,39.8262,3]};
+const RAD=Math.PI/180,DEG=180/Math.PI,mod=(a,n)=>((a%n)+n)%n;
+function julian(y,m,d){if(m<=2){y--;m+=12}const A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
+function sunPos(jd){const n=jd-2451545.0,L=mod(280.460+0.9856474*n,360),g=mod(357.528+0.9856003*n,360)*RAD,
+  lam=(L+1.915*Math.sin(g)+0.020*Math.sin(2*g))*RAD,eps=(23.439-0.0000004*n)*RAD,
+  dec=Math.asin(Math.sin(eps)*Math.sin(lam)),ra=Math.atan2(Math.cos(eps)*Math.sin(lam),Math.cos(lam))*DEG;
+  let eot=L-mod(ra,360);if(eot>180)eot-=360;if(eot<-180)eot+=360;return{dec:dec*DEG,eot:eot*4}}
+function prayer(y,m,d,lat,lon,tz,o){o=o||{};const fa=o.fajr??-20,is=o.isha??-18,k=o.asr??1,ih=o.ih??2,s=sunPos(julian(y,m,d+.5-tz/24)),T=12+tz-lon/15-s.eot/60;
+  const H=h=>Math.acos((Math.sin(h*RAD)-Math.sin(lat*RAD)*Math.sin(s.dec*RAD))/(Math.cos(lat*RAD)*Math.cos(s.dec*RAD)))*DEG/15;
+  const aa=Math.atan(1/(k+Math.tan(Math.abs(lat-s.dec)*RAD)))*DEG;
+  return{dec:s.dec,eot:s.eot,transit:T,subuh:T-H(fa),terbit:T-H(-.833),dzuhur:T+ih/60,ashar:T+H(aa),maghrib:T+H(-.833),isya:T+H(is)}}
+function qibla(lat,lon){const kl=21.4225*RAD,kg=39.8262,dl=(kg-lon)*RAD,p=lat*RAD;
+  const az=mod(Math.atan2(Math.sin(dl),Math.cos(p)*Math.tan(kl)-Math.sin(p)*Math.cos(dl))*DEG,360);
+  const cd=Math.sin(p)*Math.sin(kl)+Math.cos(p)*Math.cos(kl)*Math.cos(dl);return{az,km:Math.acos(Math.min(1,Math.max(-1,cd)))*6371}}
+const fmt=h=>{if(!isFinite(h))return '—';h=mod(h,24);let hh=Math.floor(h),mm=Math.round((h-hh)*60);if(mm==60){hh=(hh+1)%24;mm=0}return String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')};
+const dm=x=>{const s=x<0?'−':'+',a=Math.abs(x),d=Math.floor(a),m=(a-d)*60;return s+d+'° '+m.toFixed(1)+'′'};
+
+function pageAlat(){
+  const t=new Date(),iso=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
+  return `<section style="padding:42px 0 60px"><span class="tag b">Interaktif</span><h1 style="font-size:2.3rem">🧮 Kalkulator Falak</h1>
+  <p class="sub">Perhitungan edukatif dengan algoritma matahari ringkas (akurasi ±1 menit untuk jadwal; ±0,1° untuk deklinasi). Bukan pengganti jadwal resmi Kemenag / ephemeris untuk ibadah.</p>
+  <div class="tool">
+    <div class="panel">
+      <label>Kota</label><select id="kota">${Object.keys(KOTA).map(k=>`<option>${k}</option>`).join('')}<option value="_c">Koordinat kustom…</option></select>
+      <div class="row2"><div><label>Lintang φ (° , − = Selatan)</label><input id="lat" type="number" step="0.0001"></div><div><label>Bujur λ (° BT)</label><input id="lon" type="number" step="0.0001"></div></div>
+      <div class="row2"><div><label>Zona waktu (UTC±)</label><input id="tz" type="number" step="0.5"></div><div><label>Tanggal</label><input id="tgl" type="date" value="${iso}"></div></div>
+      <div class="row2"><div><label>Sudut Subuh (°)</label><input id="fa" type="number" value="-20" step="0.5"></div><div><label>Sudut Isya (°)</label><input id="is" type="number" value="-18" step="0.5"></div></div>
+      <div class="row2"><div><label>Mazhab Ashar</label><select id="asr"><option value="1">Jumhur (bayangan = benda)</option><option value="2">Hanafi (2× benda)</option></select></div><div><label>Ihtiyat (menit)</label><input id="ih" type="number" value="2" step="1"></div></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-bottom:6px">Posisi Matahari</h3>
+      <table class="out"><tbody id="o1"></tbody></table>
+      <h3 style="margin:16px 0 6px">Jadwal shalat (perkiraan)</h3>
+      <table class="out"><tbody id="o2"></tbody></table>
+    </div>
+    <div class="panel">
+      <h3 style="margin-bottom:6px">Arah kiblat</h3>
+      <table class="out"><tbody id="o3"></tbody></table>
+      <div class="compass"><span class="n">U</span><span class="e">T</span><span class="s">S</span><span class="w">B</span><div class="needle" id="needle"></div></div>
+    </div>
+    <div class="panel">
+      <h3>Cara membaca</h3>
+      ${UL(['<b>Deklinasi</b> — sudut Matahari dari ekuator langit; menentukan panjang siang.','<b>Perata waktu</b> — selisih waktu Matahari sejati vs rata-rata.','<b>Azimut kiblat</b> — dihitung dari <u>Utara sejati</u> searah jarum jam; koreksi deklinasi magnet bila memakai kompas.','Rashdul kiblat tahun ini: <b>27/28 Mei</b> &amp; <b>15/16 Juli</b>, pukul ±16:18 / ±16:27 WIB.'])}
+      ${NOTE('Metode: bujur ekliptika Matahari (Astronomical Almanac, ringkas) → δ, e → sudut jam untuk tiap tinggi Matahari.')}
+    </div>
+  </div></section>`;
+}
+function bindAlat(){
+  const $=i=>document.getElementById(i);
+  function pick(){const k=$('kota').value;if(k!=='_c'){const [a,b,z]=KOTA[k];$('lat').value=a;$('lon').value=b;$('tz').value=z}calc()}
+  function calc(){
+    const lat=+$('lat').value,lon=+$('lon').value,tz=+$('tz').value,[y,m,d]=$('tgl').value.split('-').map(Number);
+    if(!y)return;const r=prayer(y,m,d,lat,lon,tz,{fajr:+$('fa').value,isha:+$('is').value,asr:+$('asr').value,ih:+$('ih').value});
+    $('o1').innerHTML=`<tr><td>Deklinasi δ</td><td>${dm(r.dec)}</td></tr><tr><td>Perata waktu e</td><td>${r.eot>=0?'+':'−'}${Math.abs(r.eot).toFixed(1)} menit</td></tr><tr><td>Transit (Dzuhur tanpa ihtiyat)</td><td>${fmt(r.transit)}</td></tr>`;
+    $('o2').innerHTML=[['Subuh',r.subuh],['Terbit',r.terbit],['Dzuhur',r.dzuhur],['Ashar',r.ashar],['Maghrib',r.maghrib],['Isya',r.isya]].map(a=>`<tr><td>${a[0]}</td><td>${fmt(a[1])}</td></tr>`).join('');
+    const q=qibla(lat,lon);
+    $('o3').innerHTML=`<tr><td>Azimut kiblat (dari Utara)</td><td>${q.az.toFixed(2)}°</td></tr><tr><td>Dari Barat ke Utara</td><td>${Math.abs(270-q.az).toFixed(2)}° ${q.az>270?'(ke Utara)':'(ke Selatan)'}</td></tr><tr><td>Jarak ke Ka'bah (lingkaran besar)</td><td>${Math.round(q.km).toLocaleString('id-ID')} km</td></tr>`;
+    $('needle').style.transform=`rotate(${q.az}deg)`;
+  }
+  $('kota').addEventListener('change',pick);
+  ['lat','lon','tz','tgl','fa','is','asr','ih'].forEach(i=>$(i).addEventListener('input',()=>{if(['lat','lon','tz'].includes(i))$('kota').value='_c';calc()}));
+  pick();
+}
+
+/* =========================================================
+   7. ROUTER
+   ========================================================= */
+function render(){
+  const h=location.hash.replace(/^#\/?/,'');const [a,b]=h.split('/');
+  let html,route=a||'home';
+  if(!a)html=pageHome();
+  else if(a==='atlas')html=atlasRoute(h.split('/').slice(1));
+  else if(a==='belajar')html=belajarRoute(h.split('/').slice(1));
+  else if(a==='astronomi')html=pageAstronomi();
+  else if(a==='cabang')html=b?pageCabang(b):pageCabangList();
+  else if(a==='falak')html=b?pageFalak(b):pageFalakList();
+  else if(a==='alat')html=pageAlat();
+  else if(a==='referensi')html=pageReferensi();
+  else {html=pageHome();route='home'}
+  app.innerHTML=html;setActive(route);scrollTo({top:0});
+  if(route==='home'){const g=document.getElementById('homeGrid');g.innerHTML=homeCards('');document.getElementById('q').addEventListener('input',e=>g.innerHTML=homeCards(e.target.value))}
+  if(route==='alat')bindAlat();
+  if(route==='atlas'||route==='belajar'||route==='home')atlasBind();
+  document.querySelectorAll('aside.toc a[data-sec]').forEach(l=>l.addEventListener('click',e=>{e.preventDefault();const s=document.getElementById(l.dataset.sec);if(s)s.scrollIntoView({behavior:'smooth'})}));
+  const hh=document.querySelector('article h1,.atl h1');document.title=(route==='home'?'':(hh?hh.textContent.trim():route)+' · ')+'SamawatLab — Astronomi & Ilmu Falak';
+}
+addEventListener('hashchange',render);
+document.getElementById('burger').addEventListener('click',()=>document.getElementById('menu').classList.toggle('open'));
+render();
+</script>
+</body>
+</html>
