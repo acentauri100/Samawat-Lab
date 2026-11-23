@@ -1,0 +1,61 @@
+/* ===== Atlas Ilmu: bagan interaktif ===== */
+.atl{padding:42px 0 30px}
+.atl h1{font-size:clamp(1.9rem,4vw,2.7rem);margin:6px 0}
+.atwrap{position:relative;margin:14px 0 8px}
+.vtoggle{display:flex;gap:6px;justify-content:flex-end;margin-bottom:8px}
+.vtoggle button{background:var(--card);border:1px solid var(--line);color:var(--mute);padding:6px 14px;border-radius:999px;cursor:pointer;font:inherit;font-size:.82rem}
+.vtoggle button[aria-pressed="true"]{color:#fff;border-color:var(--violet2);background:linear-gradient(135deg,rgba(138,92,240,.45),rgba(47,95,224,.35))}
+.map{position:relative;width:100%;aspect-ratio:16/11;max-height:800px;border:1px solid var(--line);border-radius:26px;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 50%,rgba(91,47,168,.28),rgba(8,4,30,.55) 70%)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.map line{stroke:var(--c);stroke-width:1.2;opacity:.45;vector-effect:non-scaling-stroke}
+.map .guides ellipse{fill:none;stroke:rgba(201,227,162,.16);stroke-width:1;stroke-dasharray:3 6;vector-effect:non-scaling-stroke}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:17%;min-width:110px;aspect-ratio:1;border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px;
+  background:radial-gradient(circle,rgba(30,20,80,.95),rgba(10,6,36,.95));border:2px solid var(--c);box-shadow:0 0 40px color-mix(in srgb,var(--c) 45%,transparent);z-index:2;font-size:.95rem;line-height:1.2}
+.hub img{width:96%;border-radius:50%;display:block}
+.hub b{font-size:1rem}.hub small{color:var(--mute);font-size:.72rem;margin-top:4px;max-height:3.6em;overflow:hidden}
+.node{position:absolute;transform:translate(-50%,-50%);width:max-content;max-width:16.5%;min-width:92px;padding:7px 11px;border-radius:14px;
+  background:rgba(12,8,40,.9);border:1.5px solid var(--c);color:var(--ink);text-align:center;font-size:.78rem;line-height:1.25;z-index:3;
+  box-shadow:0 0 16px color-mix(in srgb,var(--c) 28%,transparent);transition:transform .2s,box-shadow .2s,background .2s;animation:pop .45s backwards;animation-delay:var(--d)}
+.node b{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-weight:600}
+.node i{display:block;font-style:normal;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--c);margin-bottom:2px;opacity:.95}
+.node small{display:block;color:var(--mute);font-size:.66rem;margin-top:2px}
+.node:hover,.node:focus-visible{transform:translate(-50%,-50%) scale(1.09);background:color-mix(in srgb,var(--c) 22%,rgba(12,8,40,.95));box-shadow:0 0 26px color-mix(in srgb,var(--c) 55%,transparent);color:#fff;z-index:5;outline:none}
+@keyframes pop{from{opacity:0;transform:translate(-50%,-50%) scale(.2)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.mapgrid{display:none;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.card.mini{padding:14px 16px;border-left:3px solid var(--c)}
+.card.mini h3{font-size:.98rem;margin:2px 0 3px}.card.mini p{font-size:.82rem}
+.atwrap[data-view="list"] .map{display:none}.atwrap[data-view="list"] .mapgrid{display:grid}
+@media(max-width:780px){.map{display:none!important}.mapgrid{display:grid!important}.vtoggle{display:none}}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:.8rem;color:var(--mute);margin:10px 2px 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+/* pencarian */
+.sbox{margin:14px 0 10px}
+.sbox .search{max-width:none;margin:0 0 8px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}.filters select{width:auto;min-width:160px;padding:8px 12px;border-radius:999px}
+.ares{display:grid;gap:6px;max-height:340px;overflow:auto}
+.hit{display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink)}
+.hit:hover{border-color:var(--violet2);color:#fff}
+.hit b{font-weight:600}.hit span{color:var(--mute);font-size:.8rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hit i{font-style:normal;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--sage)}
+.hint{color:var(--mute);font-size:.88rem;padding:4px 2px}
+/* indeks pohon */
+.tree details{border:1px solid var(--line);border-radius:14px;background:var(--card);margin-bottom:8px;padding:8px 14px}
+.tree details.sub{border:none;background:none;margin:4px 0 4px 14px;padding:2px 6px}
+.tree summary{cursor:pointer;font-weight:600;list-style:none}.tree summary::before{content:"▸ ";color:var(--sage)}.tree details[open]>summary::before{content:"▾ "}
+.tree summary small{color:var(--mute);font-weight:400}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{display:inline-block;padding:5px 12px;border-radius:999px;font-size:.82rem;border:1px solid var(--line);background:rgba(30,20,80,.5);color:var(--ink)}
+.chip:hover,.chip.on{border-color:var(--red2);color:#fff;background:rgba(216,54,90,.22)}
+.dots{color:var(--sage);letter-spacing:2px}
+ol.steps{margin:0 0 12px 24px}ol.steps li{margin-bottom:8px}ol.steps li span{color:var(--mute);font-size:.82rem;margin-left:8px}
+a.person{display:block;color:var(--ink)}a.person:hover{border-color:var(--violet2)}
+
+.stat{display:inline-block;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 10px;border-radius:999px;border:1px solid var(--line)}
+.st-0{color:var(--mute)}.st-1{color:#f0a35e;border-color:rgba(240,163,94,.5)}.st-2{color:var(--blue2);border-color:rgba(111,160,255,.5)}.st-3{color:var(--sage);border-color:rgba(201,227,162,.5)}
+.rels{display:flex;flex-wrap:wrap;gap:8px}.chip small{color:var(--sage);margin-right:4px;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em}.chip.off{opacity:.55;border-style:dashed}
+.mdbody h1,.mdbody h2,.mdbody h3{margin:14px 0 6px;font-size:1.05rem}.mdbody code,.mdref code,article pre{font-family:"Cambria Math","STIX Two Math",Consolas,monospace}
+article pre{background:rgba(8,4,30,.7);border:1px solid var(--line);border-radius:12px;padding:12px 16px;overflow-x:auto;margin:10px 0;max-width:75ch}
+article blockquote{border-left:3px solid var(--violet2);padding:4px 14px;color:var(--mute);margin:10px 0}
+article table{font-size:.9rem}
